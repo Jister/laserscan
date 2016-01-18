@@ -135,6 +135,12 @@ include_directories(
 add_executable(scan_to_cloud 
   src/scan_to_cloud.cpp
 )
+add_executable(find_min_distance 
+  src/find_min_distance.cpp
+)
+add_executable(constant_distance_fly 
+  src/constant_distance_fly.cpp
+)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -142,6 +148,12 @@ add_executable(scan_to_cloud
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(scan_to_cloud
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(find_min_distance 
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(constant_distance_fly
   ${catkin_LIBRARIES}
 )
 
