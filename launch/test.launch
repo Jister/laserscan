@@ -1,0 +1,6 @@
+<launch>
+  <node pkg="laserscan" name="scan_to_cloud" type="scan_to_cloud" />
+  <node pkg="laserscan" name="scan_position" type="scan_position" />
+  
+</launch>
+

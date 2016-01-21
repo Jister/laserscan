@@ -29,7 +29,7 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "find_min_distance");
   ros::NodeHandle n;
   ros::Subscriber scan_sub = n.subscribe("/scan", 1, scanCallback);
-  ros::Publisher pub = n.advertise<laserscan::Laser>("/laser_msg", 1000);
+  ros::Publisher pub = n.advertise<laserscan::Laser>("/laser_send", 1000);
   ros::Rate loop_rate(20);
 
   while(ros::ok())

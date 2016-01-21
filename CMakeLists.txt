@@ -141,6 +141,9 @@ add_executable(find_min_distance
 add_executable(constant_distance_fly 
   src/constant_distance_fly.cpp
 )
+add_executable(scan_position 
+  src/scan_position_bridge.cpp
+)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -156,7 +159,9 @@ target_link_libraries(find_min_distance
 target_link_libraries(constant_distance_fly
   ${catkin_LIBRARIES}
 )
-
+target_link_libraries(scan_position
+  ${catkin_LIBRARIES}
+)
 #############
 ## Install ##
 #############
