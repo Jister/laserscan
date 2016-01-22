@@ -71,7 +71,7 @@ int main(int argc, char **argv)
       ros::Subscriber cloud_sub = n.subscribe("/pointcloud", 1, cloudCallback);
       ros::Publisher pub = n.advertise<geometry_msgs::PoseStamped>("/mavros/vision_pose/pose", 1000);
       ros::Rate loop_rate(20);
-
+      
       while(ros::ok())
       {
              ros::Rate check_loop_rate(20);

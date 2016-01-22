@@ -153,15 +153,22 @@ add_executable(scan_position
 target_link_libraries(scan_to_cloud
   ${catkin_LIBRARIES}
 )
+add_dependencies(scan_to_cloud laserscan_generate_messages_cpp)
+
 target_link_libraries(find_min_distance 
   ${catkin_LIBRARIES}
 )
+add_dependencies(find_min_distance laserscan_generate_messages_cpp)
+
 target_link_libraries(constant_distance_fly
   ${catkin_LIBRARIES}
 )
+add_dependencies(constant_distance_fly laserscan_generate_messages_cpp)
+
 target_link_libraries(scan_position
   ${catkin_LIBRARIES}
 )
+add_dependencies(scan_position laserscan_generate_messages_cpp)
 #############
 ## Install ##
 #############
