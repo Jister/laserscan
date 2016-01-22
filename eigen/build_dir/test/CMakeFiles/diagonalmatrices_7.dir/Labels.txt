@@ -1,4 +1,0 @@
-# Target labels
- BuildOfficial
-# Source files and their labels
-/home/chenjie/桌面/eigen/test/diagonalmatrices.cpp
