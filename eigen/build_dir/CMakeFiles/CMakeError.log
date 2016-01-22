@@ -1,0 +1,201 @@
+Performing C++ SOURCE FILE Test COMPILER_SUPPORT_wd981 failed with the following output:
+Change Dir: /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec2027404690/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2027404690.dir/build.make CMakeFiles/cmTryCompileExec2027404690.dir/build
+make[1]: Entering directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec2027404690.dir/src.cxx.o
+/usr/bin/c++    -fexceptions -pedantic -Wall -Wextra -Wundef -Wcast-align -Wchar-subscripts -Wnon-virtual-dtor -Wunused-local-typedefs -Wpointer-arith -Wwrite-strings -Wformat-security -Wno-psabi -Wno-variadic-macros -Wno-long-long -fno-check-new -fno-common -fstrict-aliasing -DCOMPILER_SUPPORT_wd981 -Werror   -wd981 -o CMakeFiles/cmTryCompileExec2027404690.dir/src.cxx.o -c /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/src.cxx
+c++: error: unrecognized command line option '-wd981'
+CMakeFiles/cmTryCompileExec2027404690.dir/build.make:57: recipe for target 'CMakeFiles/cmTryCompileExec2027404690.dir/src.cxx.o' failed
+make[1]: Leaving directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec2027404690.dir/src.cxx.o] Error 1
+Makefile:118: recipe for target 'cmTryCompileExec2027404690/fast' failed
+make: *** [cmTryCompileExec2027404690/fast] Error 2
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_SUPPORT_wd2304 failed with the following output:
+Change Dir: /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec2243288477/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2243288477.dir/build.make CMakeFiles/cmTryCompileExec2243288477.dir/build
+make[1]: Entering directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec2243288477.dir/src.cxx.o
+/usr/bin/c++    -fexceptions -pedantic -Wall -Wextra -Wundef -Wcast-align -Wchar-subscripts -Wnon-virtual-dtor -Wunused-local-typedefs -Wpointer-arith -Wwrite-strings -Wformat-security -Wno-psabi -Wno-variadic-macros -Wno-long-long -fno-check-new -fno-common -fstrict-aliasing -DCOMPILER_SUPPORT_wd2304 -Werror   -wd2304 -o CMakeFiles/cmTryCompileExec2243288477.dir/src.cxx.o -c /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/src.cxx
+c++: error: unrecognized command line option '-wd2304'
+CMakeFiles/cmTryCompileExec2243288477.dir/build.make:57: recipe for target 'CMakeFiles/cmTryCompileExec2243288477.dir/src.cxx.o' failed
+make[1]: Leaving directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec2243288477.dir/src.cxx.o] Error 1
+Makefile:118: recipe for target 'cmTryCompileExec2243288477/fast' failed
+make: *** [cmTryCompileExec2243288477/fast] Error 2
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_SUPPORT_STRICTANSI failed with the following output:
+Change Dir: /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec1639855690/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1639855690.dir/build.make CMakeFiles/cmTryCompileExec1639855690.dir/build
+make[1]: Entering directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec1639855690.dir/src.cxx.o
+/usr/bin/c++    -fexceptions -pedantic -Wall -Wextra -Wundef -Wcast-align -Wchar-subscripts -Wnon-virtual-dtor -Wunused-local-typedefs -Wpointer-arith -Wwrite-strings -Wformat-security -Wno-psabi -Wno-variadic-macros -Wno-long-long -fno-check-new -fno-common -fstrict-aliasing -DCOMPILER_SUPPORT_STRICTANSI -Werror   -strict-ansi -o CMakeFiles/cmTryCompileExec1639855690.dir/src.cxx.o -c /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/src.cxx
+c++: error: unrecognized command line option '-strict-ansi'
+CMakeFiles/cmTryCompileExec1639855690.dir/build.make:57: recipe for target 'CMakeFiles/cmTryCompileExec1639855690.dir/src.cxx.o' failed
+make[1]: Leaving directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec1639855690.dir/src.cxx.o] Error 1
+Makefile:118: recipe for target 'cmTryCompileExec1639855690/fast' failed
+make: *** [cmTryCompileExec1639855690/fast] Error 2
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_SUPPORT_Qunusedarguments failed with the following output:
+Change Dir: /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec1324508437/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1324508437.dir/build.make CMakeFiles/cmTryCompileExec1324508437.dir/build
+make[1]: Entering directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec1324508437.dir/src.cxx.o
+/usr/bin/c++    -fexceptions -pedantic -Wall -Wextra -Wundef -Wcast-align -Wchar-subscripts -Wnon-virtual-dtor -Wunused-local-typedefs -Wpointer-arith -Wwrite-strings -Wformat-security -Wno-psabi -Wno-variadic-macros -Wno-long-long -fno-check-new -fno-common -fstrict-aliasing -DCOMPILER_SUPPORT_Qunusedarguments -Werror   -Qunused-arguments -o CMakeFiles/cmTryCompileExec1324508437.dir/src.cxx.o -c /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/src.cxx
+c++: error: unrecognized command line option '-Qunused-arguments'
+CMakeFiles/cmTryCompileExec1324508437.dir/build.make:57: recipe for target 'CMakeFiles/cmTryCompileExec1324508437.dir/src.cxx.o' failed
+make[1]: Leaving directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec1324508437.dir/src.cxx.o] Error 1
+Makefile:118: recipe for target 'cmTryCompileExec1324508437/fast' failed
+make: *** [cmTryCompileExec1324508437/fast] Error 2
+
+Source file was:
+int main() { return 0; }
+Determining if the Q_WS_WIN exist failed with the following output:
+Change Dir: /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec1028663959/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1028663959.dir/build.make CMakeFiles/cmTryCompileExec1028663959.dir/build
+make[1]: Entering directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec1028663959.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -fexceptions -pedantic -Wall -Wextra -Wundef -Wcast-align -Wchar-subscripts -Wnon-virtual-dtor -Wunused-local-typedefs -Wpointer-arith -Wwrite-strings -Wformat-security -Wno-psabi -Wno-variadic-macros -Wno-long-long -fno-check-new -fno-common -fstrict-aliasing -ansi -O1 -g1  -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec1028663959.dir/CheckSymbolExists.cxx.o -c /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main(int, char**)’:
+/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:19: error: ‘Q_WS_WIN’ was not declared in this scope
+   return ((int*)(&Q_WS_WIN))[argc];
+                   ^
+CMakeFiles/cmTryCompileExec1028663959.dir/build.make:57: recipe for target 'CMakeFiles/cmTryCompileExec1028663959.dir/CheckSymbolExists.cxx.o' failed
+make[1]: Leaving directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec1028663959.dir/CheckSymbolExists.cxx.o] Error 1
+Makefile:118: recipe for target 'cmTryCompileExec1028663959/fast' failed
+make: *** [cmTryCompileExec1028663959/fast] Error 2
+
+File /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <QtCore/qglobal.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef Q_WS_WIN
+  return ((int*)(&Q_WS_WIN))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the Q_WS_QWS exist failed with the following output:
+Change Dir: /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3420305903/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3420305903.dir/build.make CMakeFiles/cmTryCompileExec3420305903.dir/build
+make[1]: Entering directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3420305903.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -fexceptions -pedantic -Wall -Wextra -Wundef -Wcast-align -Wchar-subscripts -Wnon-virtual-dtor -Wunused-local-typedefs -Wpointer-arith -Wwrite-strings -Wformat-security -Wno-psabi -Wno-variadic-macros -Wno-long-long -fno-check-new -fno-common -fstrict-aliasing -ansi -O1 -g1  -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec3420305903.dir/CheckSymbolExists.cxx.o -c /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main(int, char**)’:
+/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:19: error: ‘Q_WS_QWS’ was not declared in this scope
+   return ((int*)(&Q_WS_QWS))[argc];
+                   ^
+CMakeFiles/cmTryCompileExec3420305903.dir/build.make:57: recipe for target 'CMakeFiles/cmTryCompileExec3420305903.dir/CheckSymbolExists.cxx.o' failed
+make[1]: Leaving directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec3420305903.dir/CheckSymbolExists.cxx.o] Error 1
+Makefile:118: recipe for target 'cmTryCompileExec3420305903/fast' failed
+make: *** [cmTryCompileExec3420305903/fast] Error 2
+
+File /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <QtCore/qglobal.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef Q_WS_QWS
+  return ((int*)(&Q_WS_QWS))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the Q_WS_MAC exist failed with the following output:
+Change Dir: /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec2260785762/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2260785762.dir/build.make CMakeFiles/cmTryCompileExec2260785762.dir/build
+make[1]: Entering directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec2260785762.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -fexceptions -pedantic -Wall -Wextra -Wundef -Wcast-align -Wchar-subscripts -Wnon-virtual-dtor -Wunused-local-typedefs -Wpointer-arith -Wwrite-strings -Wformat-security -Wno-psabi -Wno-variadic-macros -Wno-long-long -fno-check-new -fno-common -fstrict-aliasing -ansi -O1 -g1  -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec2260785762.dir/CheckSymbolExists.cxx.o -c /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main(int, char**)’:
+/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:19: error: ‘Q_WS_MAC’ was not declared in this scope
+   return ((int*)(&Q_WS_MAC))[argc];
+                   ^
+CMakeFiles/cmTryCompileExec2260785762.dir/build.make:57: recipe for target 'CMakeFiles/cmTryCompileExec2260785762.dir/CheckSymbolExists.cxx.o' failed
+make[1]: Leaving directory '/home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec2260785762.dir/CheckSymbolExists.cxx.o] Error 1
+Makefile:118: recipe for target 'cmTryCompileExec2260785762/fast' failed
+make: *** [cmTryCompileExec2260785762/fast] Error 2
+
+File /home/chenjie/桌面/eigen/build_dir/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <QtCore/qglobal.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef Q_WS_MAC
+  return ((int*)(&Q_WS_MAC))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Compiling the Fortran compiler identification source file "CMakeFortranCompilerId.F" failed.
+Compiler: CMAKE_Fortran_COMPILER-NOTFOUND 
+Build flags: 
+Id flags: 
+
+The output was:
+No such file or directory
+
+
+Compiling the Fortran compiler identification source file "CMakeFortranCompilerId.F" failed.
+Compiler: CMAKE_Fortran_COMPILER-NOTFOUND 
+Build flags: 
+Id flags: -c
+
+The output was:
+No such file or directory
+
+
+Compiling the Fortran compiler identification source file "CMakeFortranCompilerId.F" failed.
+Compiler: CMAKE_Fortran_COMPILER-NOTFOUND 
+Build flags: 
+Id flags: -fpp
+
+The output was:
+No such file or directory
+
+
