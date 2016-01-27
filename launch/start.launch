@@ -8,8 +8,9 @@
   </node> 
   <node pkg="laserscan" name="scan_to_cloud" type="scan_to_cloud" />
   <node pkg="laserscan" name="find_min_distance" type="find_min_distance" />
-  <node pkg="sonar" name="sonar_node" type="sonar_node" />
   <node pkg="lidar_lite_ros" name="lidarlite_node" type="lidarlite_node" />
+  <node pkg="sonar" name="sonar_node" type="sonar_node" />
+  <node pkg="sonar" name="data_handle" type="data_handle" />
 
   <arg name="fcu_url" default="/dev/ttyUSB0:921600" />
   <arg name="gcs_url" default="" />
