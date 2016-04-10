@@ -32,7 +32,7 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "constant_distance_fly");
   ros::NodeHandle n;
   ros::Subscriber cloud_sub = n.subscribe("/pointcloud", 1, cloudCallback);
-  ros::Publisher pub = n.advertise<laserscan::Laser>("/laser_send", 1000);
+  ros::Publisher pub = n.advertise<laserscan::Laser>("/laser_send", 1);
   ros::Rate loop_rate(20);
 
   while(ros::ok())

@@ -15,7 +15,7 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "scan_to_cloud");
   ros::NodeHandle n;
   ros::Subscriber sub = n.subscribe("/scan", 1, scanCallback);
-  ros::Publisher pub = n.advertise<sensor_msgs::PointCloud>("/pointcloud", 1000);
+  ros::Publisher pub = n.advertise<sensor_msgs::PointCloud>("/pointcloud", 1);
   ros::Rate loop_rate(20);
 
   while(ros::ok())
