@@ -2,7 +2,7 @@
 #include "sensor_msgs/LaserScan.h"
 #include "laser_geometry/laser_geometry.h"
 #include "mavros_extras/LaserDistance.h"
-
+#include <math.h>
 mavros_extras::LaserDistance pos;
 
 void scanCallback(const sensor_msgs::LaserScan laser)
@@ -10,18 +10,24 @@ void scanCallback(const sensor_msgs::LaserScan laser)
   float min_distance;
   int angle;
 
-  min_distance = laser.ranges[0];
+  min_distance = inf;
   angle = 0;
-  for(int i=0; i<laser.ranges.size(); i=i+4)
+  for(int i=0; i<laser.ranges.size(); i++)
   {
-    if(laser.ranges[i]<min_distance)
+    if(laser.ranges[i] > 0.5)
     {
-      min_distance = laser.ranges[i];
-      angle=i*0.25;
+    	if(laser.ranges[i]<min_distance)
+	{
+  	      min_distance = laser.ranges[i];
+	      angle=i*0.25;
+	}
     }
+	    
   }
   pos.min_distance = min_distance*100;
   pos.angle = angle-45;
+
+  pub.publish(pos);
 } 
 
 int main(int argc, char **argv)
@@ -34,7 +40,6 @@ int main(int argc, char **argv)
 
   while(ros::ok())
   {
-    pub.publish(pos);
     ros::spinOnce();
     loop_rate.sleep();
   }
