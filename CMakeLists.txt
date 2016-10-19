@@ -11,7 +11,6 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   laser_geometry
 )
-find_package(Eigen3 REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -115,10 +114,9 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
+include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
-  ${EIGEN3_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -138,12 +136,7 @@ add_executable(scan_to_cloud
 add_executable(find_min_distance 
   src/find_min_distance.cpp
 )
-add_executable(constant_distance_fly 
-  src/constant_distance_fly.cpp
-)
-add_executable(scan_position 
-  src/scan_position_bridge.cpp
-)
+
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -160,15 +153,6 @@ target_link_libraries(find_min_distance
 )
 add_dependencies(find_min_distance laserscan_generate_messages_cpp)
 
-target_link_libraries(constant_distance_fly
-  ${catkin_LIBRARIES}
-)
-add_dependencies(constant_distance_fly laserscan_generate_messages_cpp)
-
-target_link_libraries(scan_position
-  ${catkin_LIBRARIES}
-)
-add_dependencies(scan_position laserscan_generate_messages_cpp)
 #############
 ## Install ##
 #############
