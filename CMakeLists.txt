@@ -10,6 +10,8 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_generation
   laser_geometry
+  tf
+  sensor_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -136,6 +138,9 @@ add_executable(scan_to_cloud
 add_executable(find_min_distance 
   src/find_min_distance.cpp
 )
+add_executable(scan_projector 
+  src/scan_projector.cpp
+)
 
 
 ## Add cmake target dependencies of the executable
@@ -152,6 +157,10 @@ target_link_libraries(find_min_distance
   ${catkin_LIBRARIES}
 )
 add_dependencies(find_min_distance laserscan_generate_messages_cpp)
+
+target_link_libraries(scan_projector 
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
