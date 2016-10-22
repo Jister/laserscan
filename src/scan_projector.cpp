@@ -47,6 +47,7 @@ private:
 Projector::Projector()
 {
 	scan_sub = n.subscribe("/scan", 1, &Projector::scanCallback, this);
+	imu_sub = n.subscribe("/mavros/imu/data", 1, &Projector::imuCallback, this);
 	cloud_pub = n.advertise<sensor_msgs::PointCloud>("/pointcloud", 1);
 	cloud_project_pub = n.advertise<sensor_msgs::PointCloud>("/pointcloud_project", 1);
 	initialized = false;
@@ -65,8 +66,9 @@ void Projector::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan)
 	projector.projectLaser(*scan, cloud);
 	cloud_pub.publish(cloud);
 
-	sensor_msgs::PointCloud cloud_project = cloud;
-	cloud_project.header.frame_id = "/base_ortho";
+	sensor_msgs::PointCloud::Ptr cloud_project = boost::shared_ptr<sensor_msgs::PointCloud>(new sensor_msgs::PointCloud());
+
+	cloud_project->header.frame_id = "/laser";
 
 	for (int i = 0; i < scan->ranges.size(); i++)
 	{
@@ -79,13 +81,16 @@ void Projector::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan)
 		point.y = p.getY();
 		point.z = 0.0;
 
-		cloud_project.points[i] = point;
+		cloud_project->points.push_back(point);
+
 	}
 	cloud_project_pub.publish(cloud_project);
 }
 
 void Projector::imuCallback(const sensor_msgs::Imu::ConstPtr& imu_msg)
 {
+	if(!initialized)return;
+
 	tf::Transform world_to_base;
 	world_to_base.setIdentity();
 
@@ -93,15 +98,21 @@ void Projector::imuCallback(const sensor_msgs::Imu::ConstPtr& imu_msg)
 	tf::quaternionMsgToTF(imu_msg->orientation, q);
 	world_to_base.setRotation(q);
 
+	// tf::StampedTransform world_to_base_tf(world_to_base, imu_msg->header.stamp, "/world", "/base_link");
+	// tf_broadcaster.sendTransform(world_to_base_tf);
+
 	// calculate world to ortho frame transform
 	tf::Transform world_to_ortho;
 	getOrthoTf(world_to_base, world_to_ortho);
 
-	//tf::StampedTransform world_to_ortho_tf(world_to_ortho, imu_msg->header.stamp, "/world", "/base_ortho");
-	//tf_broadcaster.sendTransform(world_to_ortho_tf);
+	// tf::StampedTransform world_to_ortho_tf(world_to_ortho, imu_msg->header.stamp, "/world", "/base_ortho");
+	// tf_broadcaster.sendTransform(world_to_ortho_tf);
 
 	// calculate ortho to laser tf, and save it for when scans arrive
 	ortho_to_laser = world_to_ortho.inverse() * world_to_base * base_to_laser;
+
+// 	tf::StampedTransform ortho_to_laser_tf(ortho_to_laser, imu_msg->header.stamp, "/base_ortho", "/laser");
+// 	tf_broadcaster.sendTransform(ortho_to_laser_tf);
 }
 
 void Projector::getOrthoTf(const tf::Transform& world_to_base, tf::Transform& world_to_ortho)
@@ -121,8 +132,8 @@ bool Projector::getBaseToLaserTf (const sensor_msgs::LaserScan::ConstPtr& scan_m
 	tf::StampedTransform base_to_laser_tf;
 	try
 	{
-		tf_listener.waitForTransform("/base_link", scan_msg->header.frame_id, scan_msg->header.stamp, ros::Duration(1.0));
-		tf_listener.lookupTransform ("/base_link", scan_msg->header.frame_id, scan_msg->header.stamp, base_to_laser_tf);
+		tf_listener.waitForTransform("/base_link", "/laser", scan_msg->header.stamp, ros::Duration(1.0));
+		tf_listener.lookupTransform ("/base_link", "/laser", scan_msg->header.stamp, base_to_laser_tf);
 	}
 	catch (tf::TransformException ex)
 	{
@@ -139,7 +150,7 @@ void Projector::createCache (const sensor_msgs::LaserScan::ConstPtr& scan_msg)
   a_cos_.clear();
   a_sin_.clear();
 
-  for (unsigned int i = 0; i < scan_msg->ranges.size(); ++i)
+  for (unsigned int i = 0; i < scan_msg->ranges.size(); i++)
   {
     double angle = scan_msg->angle_min + i * scan_msg->angle_increment;
     a_cos_.push_back(cos(angle));
