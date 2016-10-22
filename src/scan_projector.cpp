@@ -10,6 +10,11 @@
 #include "tf/transform_broadcaster.h"
 #include "tf/message_filter.h"
 #include <message_filters/subscriber.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_types.h>
+#include <pcl/point_cloud.h>
+#include <pcl_ros/point_cloud.h>
+#include <pcl_conversions/pcl_conversions.h>
 #include "Eigen/Dense"
 #include <math.h>
 #include <vector>
@@ -19,6 +24,8 @@ using namespace Eigen;
 
 class Projector
 {
+	typedef pcl::PointXYZ           PointT;
+	typedef pcl::PointCloud<PointT> PointCloudT;
 public: 
 	Projector();
 private:
@@ -26,7 +33,7 @@ private:
 	ros::Subscriber scan_sub;
 	ros::Subscriber imu_sub;
 	ros::Publisher cloud_pub;
-	ros::Publisher cloud_project_pub;
+	//ros::Publisher cloud_project_pub;
 	tf::TransformListener tf_listener;
 	tf::TransformBroadcaster tf_broadcaster;
 	tf::Transform base_to_laser; // static, cached
@@ -35,7 +42,7 @@ private:
 	vector<double> a_sin_;
     vector<double> a_cos_;
     laser_geometry::LaserProjection projector;
-    sensor_msgs::PointCloud cloud;
+    //sensor_msgs::PointCloud cloud;
 
 	void scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan);
 	void imuCallback(const sensor_msgs::Imu::ConstPtr& imu_msg);
@@ -48,8 +55,8 @@ Projector::Projector()
 {
 	scan_sub = n.subscribe("/scan", 1, &Projector::scanCallback, this);
 	imu_sub = n.subscribe("/mavros/imu/data", 1, &Projector::imuCallback, this);
-	cloud_pub = n.advertise<sensor_msgs::PointCloud>("/pointcloud", 1);
-	cloud_project_pub = n.advertise<sensor_msgs::PointCloud>("/pointcloud_project", 1);
+	cloud_pub = n.advertise<PointCloudT>("/cloud", 10);
+	//cloud_project_pub = n.advertise<sensor_msgs::PointCloud>("/pointcloud_project", 1);
 	initialized = false;
 }
 
@@ -59,32 +66,38 @@ void Projector::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan)
 	{
 		initialized = getBaseToLaserTf(scan);
 		if (initialized) 
+		{
 			createCache(scan);
+			ROS_INFO("initialized");
+		}
 		else return;
 	}
 
-	projector.projectLaser(*scan, cloud);
-	cloud_pub.publish(cloud);
+	PointCloudT::Ptr cloud = boost::shared_ptr<PointCloudT>(new PointCloudT());
+	pcl_conversions::toPCL(scan->header, cloud->header);
 
-	sensor_msgs::PointCloud::Ptr cloud_project = boost::shared_ptr<sensor_msgs::PointCloud>(new sensor_msgs::PointCloud());
-
-	cloud_project->header.frame_id = "/laser";
-
-	for (int i = 0; i < scan->ranges.size(); i++)
+	for (unsigned int i = 0; i < scan->ranges.size(); i++)
 	{
 		double r = scan->ranges[i];
-		tf::Vector3 p(r * a_cos_[i], r * a_sin_[i], 0.0);
-		p = ortho_to_laser * p;
 
-		geometry_msgs::Point32 point;
-		point.x = p.getX();
-		point.y = p.getY();
-		point.z = 0.0;
+		if (r > scan->range_min)
+		{
+			tf::Vector3 p(r * a_cos_[i], r * a_sin_[i], 0.0);
+			p = ortho_to_laser * p;
 
-		cloud_project->points.push_back(point);
-
+			PointT point;
+			point.x = p.getX();
+			point.y = p.getY();
+			point.z = 0.0;
+			cloud->points.push_back(point);
+		}
 	}
-	cloud_project_pub.publish(cloud_project);
+
+	cloud->width = cloud->points.size();
+	cloud->height = 1;
+	cloud->is_dense = true; // no nan's present 
+
+	cloud_pub.publish(cloud);
 }
 
 void Projector::imuCallback(const sensor_msgs::Imu::ConstPtr& imu_msg)
