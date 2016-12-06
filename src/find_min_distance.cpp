@@ -6,9 +6,12 @@
 #include "geometry_msgs/PointStamped.h"
 #include "laser_geometry/laser_geometry.h"
 #include "laserscan/Laser.h"
+#include "mavros_extras/LaserDistance.h"
 #include "Eigen/Dense"
 #include <math.h>
 #include <vector>
+
+#define Pi 3.141592653
 
 using namespace std;
 using namespace Eigen;
@@ -22,7 +25,7 @@ private:
 	ros::Subscriber scan_sub;
 	ros::Publisher obstacle_pub;
 	ros::Publisher cloud_pub;
-	laserscan::Laser pos;
+
 	laser_geometry::LaserProjection projector;
 	sensor_msgs::PointCloud cloud;
 	
@@ -33,7 +36,7 @@ private:
 ScanProcess::ScanProcess()
 {
 	scan_sub = n.subscribe("/scan_projected", 1, &ScanProcess::scanCallback, this);
-	//pub = n.advertise<laserscan::Laser>("/laser_send", 1);
+	pub = n.advertise<mavros_extras::LaserDistance>("/laser_send", 1);
 	obstacle_pub = n.advertise<geometry_msgs::PointStamped>("/obstacle_position", 1);
 	cloud_pub = n.advertise<sensor_msgs::PointCloud>("/pointcloud", 1);
 }
@@ -106,7 +109,13 @@ void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
 			obstacle.point.z = 0;
 		}
 	}
-	ROS_INFO("min_distance:%f", min_distance);
+	//ROS_INFO("min_distance:%f", min_distance);
+	mavros_extras::LaserDistance obstacle_pos;
+	obstacle_pos.min_distance = min_distance;
+	obstacle_pos.angle = atan2(obstacle.point.y, obstacle.point.x);
+	if(obstacle_pos.angle < 0) obstacle_pos.angle = obstacle_pos.angle + 2 * Pi;
+	
+	pub.publish(obstacle_pos);
 	obstacle_pub.publish(obstacle);
 }
 
