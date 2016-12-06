@@ -95,7 +95,7 @@ void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
 		distance = sqrt(x * x + y * y);
 		//ROS_INFO("x:%f  y:%f  distance:%f", x, y, distance);
 
-		if(distance < min_distance && distance > 0.5)
+		if(distance < min_distance && distance > 0.5 && cluster[i].size() > 1)
 		{
 			min_distance = distance;
 			obstacle.header.stamp = ros::Time::now();
