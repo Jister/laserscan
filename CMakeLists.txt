@@ -136,9 +136,11 @@ include_directories(
 ##add_executable(scan_to_cloud 
 ##  src/scan_to_cloud.cpp
 ##)
-##add_executable(find_min_distance 
-##  src/find_min_distance.cpp
-##)
+
+add_executable(find_min_distance 
+  src/find_min_distance.cpp
+)
+
 add_executable(scan_projector 
   src/scan_projector.cpp
 )
@@ -154,10 +156,9 @@ add_executable(scan_projector
 ##)
 ##add_dependencies(scan_to_cloud laserscan_generate_messages_cpp)
 
-##target_link_libraries(find_min_distance 
-##  ${catkin_LIBRARIES}
-##)
-##add_dependencies(find_min_distance laserscan_generate_messages_cpp)
+target_link_libraries(find_min_distance 
+  ${catkin_LIBRARIES}
+)
 
 target_link_libraries(scan_projector 
   ${catkin_LIBRARIES}

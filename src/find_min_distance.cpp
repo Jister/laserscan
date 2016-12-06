@@ -32,7 +32,7 @@ private:
 
 ScanProcess::ScanProcess()
 {
-	scan_sub = n.subscribe("/scan", 1, &ScanProcess::scanCallback, this);
+	scan_sub = n.subscribe("/scan_projected", 1, &ScanProcess::scanCallback, this);
 	//pub = n.advertise<laserscan::Laser>("/laser_send", 1);
 	obstacle_pub = n.advertise<geometry_msgs::PointStamped>("/obstacle_position", 1);
 	cloud_pub = n.advertise<sensor_msgs::PointCloud>("/pointcloud", 1);
