@@ -12,11 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
   laser_geometry
   tf
   sensor_msgs
-  pcl_ros
-  pcl_conversions
   message_filters
 )
-find_package(PCL REQUIRED QUIET)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -123,7 +120,6 @@ catkin_package(
 include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
-  ${PCL_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -137,12 +133,12 @@ include_directories(
 # add_dependencies(laserscan ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(scan_to_cloud 
-  src/scan_to_cloud.cpp
-)
-add_executable(find_min_distance 
-  src/find_min_distance.cpp
-)
+##add_executable(scan_to_cloud 
+##  src/scan_to_cloud.cpp
+##)
+##add_executable(find_min_distance 
+##  src/find_min_distance.cpp
+##)
 add_executable(scan_projector 
   src/scan_projector.cpp
 )
@@ -153,64 +149,17 @@ add_executable(scan_projector
 # add_dependencies(laserscan_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(scan_to_cloud
-  ${catkin_LIBRARIES}
-)
-add_dependencies(scan_to_cloud laserscan_generate_messages_cpp)
+##target_link_libraries(scan_to_cloud
+##  ${catkin_LIBRARIES}
+##)
+##add_dependencies(scan_to_cloud laserscan_generate_messages_cpp)
 
-target_link_libraries(find_min_distance 
-  ${catkin_LIBRARIES}
-)
-add_dependencies(find_min_distance laserscan_generate_messages_cpp)
+##target_link_libraries(find_min_distance 
+##  ${catkin_LIBRARIES}
+##)
+##add_dependencies(find_min_distance laserscan_generate_messages_cpp)
 
 target_link_libraries(scan_projector 
   ${catkin_LIBRARIES}
 )
 
-#############
-## Install ##
-#############
-
-# all install targets should use catkin DESTINATION variables
-# See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
-
-## Mark executable scripts (Python etc.) for installation
-## in contrast to setup.py, you can choose the destination
-# install(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-## Mark executables and/or libraries for installation
-# install(TARGETS laserscan laserscan_node
-#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
-
-## Mark other files for installation (e.g. launch and bag files, etc.)
-# install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
-
-#############
-## Testing ##
-#############
-
-## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_laserscan.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
-
-## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)
