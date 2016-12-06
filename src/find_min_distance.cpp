@@ -25,6 +25,7 @@ private:
 	ros::Subscriber scan_sub;
 	ros::Publisher obstacle_pub;
 	ros::Publisher cloud_pub;
+	ros::Publisher pub;
 
 	laser_geometry::LaserProjection projector;
 	sensor_msgs::PointCloud cloud;
