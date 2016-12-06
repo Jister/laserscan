@@ -138,7 +138,7 @@ include_directories(
 ##)
 
 add_executable(find_min_distance 
-  src/find_min_distance.cpp
+  src/find_min_distance_opt.cpp
 )
 
 add_executable(scan_projector 
