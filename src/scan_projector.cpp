@@ -53,8 +53,8 @@ private:
 
 Projector::Projector()
 {
-	scan_sub = n.subscribe("/scan", 1, &Projector::scanCallback, this);
-	imu_sub = n.subscribe("/mavros/imu/data", 1, &Projector::imuCallback, this);
+	scan_sub = n.subscribe("/scan", 10, &Projector::scanCallback, this);
+	imu_sub = n.subscribe("/mavros/imu/data", 10, &Projector::imuCallback, this);
 	cloud_pub = n.advertise<PointCloudT>("/cloud", 10);
 	//cloud_project_pub = n.advertise<sensor_msgs::PointCloud>("/pointcloud_project", 1);
 	initialized = false;
