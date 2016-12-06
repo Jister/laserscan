@@ -107,6 +107,7 @@ void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
 		}
 	}
 	ROS_INFO("min_distance:%f", min_distance);
+	ROS_INFO("angle:%f", atan2(obstacle.point.y,obstacle.point.x)/3.14*180);
 	obstacle_pub.publish(obstacle);
 }
 
