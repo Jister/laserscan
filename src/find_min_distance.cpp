@@ -46,45 +46,41 @@ void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
 	//convert scan to cloud data
 	projector.projectLaser(scan, cloud);
 
-	int flag[cloud.points.size()];
-	memset(flag,0,sizeof(flag));
-
 	int cluster_num = 0;
 	float min_distance = 30;
+
 	geometry_msgs::PointStamped obstacle;
 	sensor_msgs::PointCloud cloud_cluster = cloud;
 
+	vector<geometry_msgs::Point32> cluster[scan.ranges.size()];
 	
 	for(int i=0; i<cloud.points.size(); i++)
 	{ 
-		for(int j=i; j<cloud.points.size(); j++)
+		if(i == 0)
 		{
-			if(sqrt((cloud.points[i].x - cloud.points[j].x)*(cloud.points[i].x - cloud.points[j].x) + (cloud.points[i].y - cloud.points[j].y)*(cloud.points[i].y - cloud.points[j].y)) < 0.2)
+			cluster[cluster_num].push_back(cloud.points[0]);
+			cloud_cluster.channels[0].values[0] = cluster_num*5;
+		}else
+		{
+			if(sqrt((cloud.points[i].x - cloud.points[i-1].x)*(cloud.points[i].x - cloud.points[i-1].x) + (cloud.points[i].y - cloud.points[i-1].y)*(cloud.points[i].y - cloud.points[i-1].y)) < 0.1)
 			{
-				if(flag[j] == 0 && flag[i] == 0)
-				{
-					cluster_num++;
-					flag[j] = cluster_num;
-				}else if(flag[j] == 0 && flag[i] != 0)
-				{
-					flag[j] = flag[i];
-				}	
+				cluster[cluster_num].push_back(cloud.points[i]);
+				cloud_cluster.channels[0].values[i] = cluster_num*5;
+			}else
+			{
+				cluster_num++;
+				cluster[cluster_num].push_back(cloud.points[i]);
+				cloud_cluster.channels[0].values[i] = cluster_num*5;
 			}
 		}
 	}
-	ROS_INFO("cluster number:%d",cluster_num);
+	ROS_INFO("cluster number:%d",cluster_num+1);
 
-	vector<geometry_msgs::Point32> cluster[cluster_num];
-	for(int i=0; i<cloud.points.size(); i++)
-	{
-		cluster[flag[i]-1].push_back(cloud.points[i]);
-		cloud_cluster.channels[0].values[i] = flag[i]*5;
-	}
 	cloud_cluster.channels[0].name = "intensity";
 	cloud_pub.publish(cloud_cluster);
 
 	
-	for(int i=0; i<cluster_num; i++)
+	for(int i=0; i<=cluster_num; i++)
 	{
 		float x = 0;
 		float y = 0;
@@ -109,6 +105,7 @@ void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
 			obstacle.point.z = 0;
 		}
 	}
+
 	//ROS_INFO("min_distance:%f", min_distance);
 	mavros_extras::LaserDistance obstacle_pos;
 	obstacle_pos.min_distance = min_distance;
