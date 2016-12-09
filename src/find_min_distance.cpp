@@ -5,6 +5,9 @@
 #include "geometry_msgs/Point32.h"
 #include "geometry_msgs/PointStamped.h"
 #include "laser_geometry/laser_geometry.h"
+#include "tf/transform_listener.h"
+#include "tf/transform_broadcaster.h"
+#include "tf/message_filter.h"
 #include "laserscan/Laser.h"
 #include "mavros_extras/LaserDistance.h"
 #include "Eigen/Dense"
@@ -23,23 +26,38 @@ public:
 private:
 	ros::NodeHandle n;
 	ros::Subscriber scan_sub;
+	ros::Subscriber imu_sub;
 	ros::Publisher obstacle_pub;
 	ros::Publisher cloud_pub;
 	ros::Publisher pub;
 
+    tf::Transform world_to_laser;
+
 	laser_geometry::LaserProjection projector;
 	sensor_msgs::PointCloud cloud;
-	
 
 	void scanCallback(const sensor_msgs::LaserScan scan);
+	void imuCallback(const sensor_msgs::Imu::ConstPtr& imu_msg);
 };
 
 ScanProcess::ScanProcess()
 {
 	scan_sub = n.subscribe("/scan_projected", 1, &ScanProcess::scanCallback, this);
+	imu_sub = n.subscribe("/mavros/imu/data", 10, &Projector::imuCallback, this);
 	pub = n.advertise<mavros_extras::LaserDistance>("/laser_send", 1);
 	obstacle_pub = n.advertise<geometry_msgs::PointStamped>("/obstacle_position", 1);
+	obstacle_global_pub = n.advertise<geometry_msgs::PointStamped>("/mavros/vision_pose/pose", 1);
 	cloud_pub = n.advertise<sensor_msgs::PointCloud>("/pointcloud", 1);
+
+}
+
+void ScanProcess::imuCallback(const sensor_msgs::Imu::ConstPtr& imu_msg)
+{
+	tf::Quaternion q;
+	tf::Quaternion q_yaw;
+	tf::quaternionMsgToTF(imu_msg->orientation, q);
+	q_yaw = tf::createQuaternionFromYaw(tf::getYaw(q));
+	world_to_laser.setRotation(q);
 }
 
 void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
@@ -51,6 +69,7 @@ void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
 	float min_distance = 30;
 
 	geometry_msgs::PointStamped obstacle;
+	geometry_msgs::PointStamped obstacle_global;
 	sensor_msgs::PointCloud cloud_cluster = cloud;
 
 	vector<geometry_msgs::Point32> cluster[scan.ranges.size()];
@@ -112,9 +131,19 @@ void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
 	obstacle_pos.min_distance = min_distance;
 	obstacle_pos.angle = atan2(obstacle.point.y, obstacle.point.x);
 	if(obstacle_pos.angle < 0) obstacle_pos.angle = obstacle_pos.angle + 2 * Pi;
+
+	//For bridge position control test
+	tf::Vector3 p(obstacle.point.x, obstacle.point.y, 0.0);
+	p = world_to_laser * p;
+	obstacle_global.header.stamp = ros::Time::now();
+	obstacle_global.header.frame_id = "laser";
+	obstacle_global.point.x = -p.getX();
+	obstacle_global.point.y = -p.getY();
+	obstacle_global.point.z = 0;
 	
 	pub.publish(obstacle_pos);
 	obstacle_pub.publish(obstacle);
+	obstacle_global_pub.publish(obstacle_global);
 }
 
 
