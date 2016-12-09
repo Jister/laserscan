@@ -2,6 +2,7 @@
 #include "sensor_msgs/LaserScan.h"
 #include "sensor_msgs/PointCloud.h"
 #include "sensor_msgs/ChannelFloat32.h"
+#include "sensor_msgs/Imu.h"
 #include "geometry_msgs/Point32.h"
 #include "geometry_msgs/PointStamped.h"
 #include "laser_geometry/laser_geometry.h"
@@ -57,7 +58,7 @@ void ScanProcess::imuCallback(const sensor_msgs::Imu::ConstPtr& imu_msg)
 	tf::Quaternion q_yaw;
 	tf::quaternionMsgToTF(imu_msg->orientation, q);
 	q_yaw = tf::createQuaternionFromYaw(tf::getYaw(q));
-	world_to_laser.setRotation(q);
+	world_to_laser.setRotation(q_yaw);
 }
 
 void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
