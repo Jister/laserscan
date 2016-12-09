@@ -25,6 +25,7 @@ private:
 	ros::Subscriber scan_sub;
 	ros::Publisher obstacle_pub;
 	ros::Publisher cloud_pub;
+	ros::Publisher pub;
 
 	laser_geometry::LaserProjection projector;
 	sensor_msgs::PointCloud cloud;
@@ -62,7 +63,7 @@ void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
 			cloud_cluster.channels[0].values[0] = cluster_num*5;
 		}else
 		{
-			if(sqrt((cloud.points[i].x - cloud.points[i-1].x)*(cloud.points[i].x - cloud.points[i-1].x) + (cloud.points[i].y - cloud.points[i-1].y)*(cloud.points[i].y - cloud.points[i-1].y)) < 0.1)
+			if(sqrt((cloud.points[i].x - cloud.points[i-1].x)*(cloud.points[i].x - cloud.points[i-1].x) + (cloud.points[i].y - cloud.points[i-1].y)*(cloud.points[i].y - cloud.points[i-1].y)) < 0.2)
 			{
 				cluster[cluster_num].push_back(cloud.points[i]);
 				cloud_cluster.channels[0].values[i] = cluster_num*5;
@@ -95,7 +96,7 @@ void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
 		distance = sqrt(x * x + y * y);
 		//ROS_INFO("x:%f  y:%f  distance:%f", x, y, distance);
 
-		if(distance < min_distance && distance > 0.5)
+		if(distance < min_distance && distance > 0.5 && cluster[i].size()>1)
 		{
 			min_distance = distance;
 			obstacle.header.stamp = ros::Time::now();

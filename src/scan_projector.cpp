@@ -14,6 +14,7 @@
 #include <math.h>
 #include <vector>
 
+
 using namespace std;
 using namespace Eigen;
 
@@ -64,20 +65,40 @@ void Projector::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan)
 
 
 	scan_projected.header = scan->header;
-    scan_projected.angle_min = scan->angle_min;
-    scan_projected.angle_max = scan->angle_max;
-    scan_projected.angle_increment = scan->angle_increment;
-    scan_projected.time_increment = scan->time_increment;
-    scan_projected.range_min = scan->range_min;
-    scan_projected.range_max = scan->range_max;
+    	scan_projected.angle_min = scan->angle_min;
+    	scan_projected.angle_max = scan->angle_max;
+    	scan_projected.angle_increment = scan->angle_increment;
+    	scan_projected.time_increment = scan->time_increment;
+    	scan_projected.range_min = scan->range_min;
+    	scan_projected.range_max = scan->range_max;
 	scan_projected.ranges.resize(scan->ranges.size());
-    scan_projected.intensities.resize(scan->ranges.size());
+    	scan_projected.intensities.resize(scan->ranges.size());
+	
+	double mean_intensity = 0;
+	int intensity_count = 0;
+	for (unsigned int i = 0; i < scan->ranges.size(); i++)
+	{
+		if(scan->intensities[i]>0)
+		{
+			mean_intensity = mean_intensity + scan->intensities[i];
+			intensity_count ++;
+		}
+	}
+	mean_intensity = mean_intensity / intensity_count;
 
 	for (unsigned int i = 0; i < scan->ranges.size(); i++)
 	{
-		double r = scan->ranges[i];
-		scan_projected.ranges[i] = r * sqrt(a_cos_[i]*a_cos_[i]*cos(pitch)*cos(pitch)  + a_sin_[i]*a_sin_[i]*cos(roll)*cos(roll));
-		scan_projected.intensities[i] = scan->intensities[i];
+		if(scan->intensities[i]>0.8*mean_intensity)
+		{
+			double r = scan->ranges[i];
+			scan_projected.ranges[i] = r * sqrt(a_cos_[i]*a_cos_[i]*cos(pitch)*cos(pitch)  + a_sin_[i]*a_sin_[i]*cos(roll)*cos(roll));
+			scan_projected.intensities[i] = scan->intensities[i];
+		}else
+		{
+			scan_projected.ranges[i] = 0.0;
+			scan_projected.intensities[i] = 0.0;
+	
+		}
 	}
 
 	scan_pub.publish(scan_projected);
