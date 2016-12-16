@@ -137,8 +137,8 @@ include_directories(
 ##  src/scan_to_cloud.cpp
 ##)
 
-add_executable(find_min_distance 
-  src/find_min_distance.cpp
+add_executable(obstacle_detect 
+  src/obstacle_detect.cpp
 )
 
 add_executable(scan_projector 
@@ -156,7 +156,7 @@ add_executable(scan_projector
 ##)
 ##add_dependencies(scan_to_cloud laserscan_generate_messages_cpp)
 
-target_link_libraries(find_min_distance 
+target_link_libraries(obstacle_detect 
   ${catkin_LIBRARIES}
 )
 

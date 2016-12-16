@@ -133,7 +133,7 @@ void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
 
 int main(int argc, char **argv)
 {
-	ros::init(argc, argv, "find_min_distance");
+	ros::init(argc, argv, "obstacle_detect");
 	ScanProcess ScanProcess;
 	ros::spin();
 }
