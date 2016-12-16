@@ -65,14 +65,14 @@ void Projector::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan)
 
 
 	scan_projected.header = scan->header;
-    	scan_projected.angle_min = scan->angle_min;
-    	scan_projected.angle_max = scan->angle_max;
-    	scan_projected.angle_increment = scan->angle_increment;
-    	scan_projected.time_increment = scan->time_increment;
-    	scan_projected.range_min = scan->range_min;
-    	scan_projected.range_max = scan->range_max;
+	scan_projected.angle_min = scan->angle_min;
+	scan_projected.angle_max = scan->angle_max;
+	scan_projected.angle_increment = scan->angle_increment;
+	scan_projected.time_increment = scan->time_increment;
+	scan_projected.range_min = scan->range_min;
+	scan_projected.range_max = scan->range_max;
 	scan_projected.ranges.resize(scan->ranges.size());
-    	scan_projected.intensities.resize(scan->ranges.size());
+	scan_projected.intensities.resize(scan->ranges.size());
 	
 	double mean_intensity = 0;
 	int intensity_count = 0;
