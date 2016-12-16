@@ -29,8 +29,10 @@ private:
 
 	laser_geometry::LaserProjection projector;
 	sensor_msgs::PointCloud cloud;
-	
 
+	geometry_msgs::PointStamped obstacle;
+	geometry_msgs::PointStamped obstacle_prev;
+	
 	void scanCallback(const sensor_msgs::LaserScan scan);
 };
 
@@ -49,8 +51,10 @@ void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
 
 	int cluster_num = 0;
 	float min_distance = 30;
+	bool disturb = false;
 
-	geometry_msgs::PointStamped obstacle;
+	obstacle_prev = obstacle;
+
 	sensor_msgs::PointCloud cloud_cluster = cloud;
 
 	vector<geometry_msgs::Point32> cluster[scan.ranges.size()];
@@ -75,7 +79,7 @@ void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
 			}
 		}
 	}
-	ROS_INFO("cluster number:%d",cluster_num+1);
+	//ROS_INFO("cluster number:%d",cluster_num+1);
 
 	cloud_cluster.channels[0].name = "intensity";
 	cloud_pub.publish(cloud_cluster);
@@ -113,8 +117,17 @@ void ScanProcess::scanCallback(const sensor_msgs::LaserScan scan)
 	obstacle_pos.angle = atan2(obstacle.point.y, obstacle.point.x);
 	if(obstacle_pos.angle < 0) obstacle_pos.angle = obstacle_pos.angle + 2 * Pi;
 	
-	pub.publish(obstacle_pos);
-	obstacle_pub.publish(obstacle);
+	if(sqrt((obstacle.point.x-obstacle_prev.point.x)*(obstacle.point.x-obstacle_prev.point.x)+
+			(obstacle.point.y-obstacle_prev.point.y)*(obstacle.point.y-obstacle_prev.point.y))>2.0)
+	{
+		disturb = true;
+	}
+	if(!disturb)
+	{
+		pub.publish(obstacle_pos);
+		obstacle_pub.publish(obstacle);
+	}
+	
 }
 
 
