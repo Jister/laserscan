@@ -107,6 +107,35 @@ void ObstacleProcess::obstacle_Callback(const geometry_msgs::PointStamped msg)
 
 	}
 
+	if(obstacle_set.size() > 0)
+	{
+		sensor_msgs::PointCloud obstacle_msg;
+		obstacle_msg.header.stamp = msg.header.stamp;
+		obstacle_msg.header.frame_id = "world";
+
+		obstacle_msg.points.resize(obstacle_set.size());
+		for(int i = 0; i < obstacle_set.size(); i++)
+		{
+			obstacle_msg.points[i].x = obstacle_set[i][0];
+			obstacle_msg.points[i].y = obstacle_set[i][1];
+			obstacle_msg.points[i].z = 0;
+		}
+
+		obstacle_cloud_pub.publish(obstacle_msg);
+	}else
+	{
+		sensor_msgs::PointCloud obstacle_msg;
+		obstacle_msg.header.stamp = msg.header.stamp;
+		obstacle_msg.header.frame_id = "world";
+
+		obstacle_msg.points.resize(1);
+		obstacle_msg.points[i].x = 0;
+		obstacle_msg.points[i].y = 0;
+		obstacle_msg.points[i].z = 0;
+
+		obstacle_cloud_pub.publish(obstacle_msg);
+	}
+
 
 	if(update_count > 20)
 	{
