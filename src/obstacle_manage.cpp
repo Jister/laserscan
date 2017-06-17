@@ -104,7 +104,6 @@ void ObstacleProcess::obstacle_Callback(const geometry_msgs::PointStamped msg)
 				it++;
 			}
 		}
-
 	}
 
 	if(obstacle_set.size() > 0)
@@ -136,8 +135,8 @@ void ObstacleProcess::obstacle_Callback(const geometry_msgs::PointStamped msg)
 		obstacle_cloud_pub.publish(obstacle_msg);
 	}
 
-
-	if(update_count > 20)
+	update_count++;
+	if(update_count > 50)
 	{
 		update_count = 0;
 		local_pos_update = false;
