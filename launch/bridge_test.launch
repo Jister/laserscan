@@ -1,0 +1,7 @@
+<launch>
+
+  <node pkg="laserscan" name="scan_to_cloud" type="scan_to_cloud" />
+  <node pkg="laserscan" name="constant_distance_fly" type="constant_distance_fly" />
+
+</launch>
+

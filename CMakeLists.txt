@@ -135,15 +135,15 @@ include_directories(
 add_executable(scan_to_cloud 
   src/scan_to_cloud.cpp
 )
-add_executable(find_min_distance 
-  src/find_min_distance.cpp
-)
+#add_executable(find_min_distance 
+#  src/find_min_distance.cpp
+#)
 add_executable(constant_distance_fly 
   src/constant_distance_fly.cpp
 )
-add_executable(scan_position 
-  src/scan_position_bridge.cpp
-)
+#add_executable(scan_position 
+#  src/scan_position_bridge.cpp
+#)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -155,20 +155,20 @@ target_link_libraries(scan_to_cloud
 )
 add_dependencies(scan_to_cloud laserscan_generate_messages_cpp)
 
-target_link_libraries(find_min_distance 
-  ${catkin_LIBRARIES}
-)
-add_dependencies(find_min_distance laserscan_generate_messages_cpp)
+#target_link_libraries(find_min_distance 
+#  ${catkin_LIBRARIES}
+#)
+#add_dependencies(find_min_distance laserscan_generate_messages_cpp)
 
 target_link_libraries(constant_distance_fly
   ${catkin_LIBRARIES}
 )
 add_dependencies(constant_distance_fly laserscan_generate_messages_cpp)
 
-target_link_libraries(scan_position
-  ${catkin_LIBRARIES}
-)
-add_dependencies(scan_position laserscan_generate_messages_cpp)
+#target_link_libraries(scan_position
+#  ${catkin_LIBRARIES}
+#)
+#add_dependencies(scan_position laserscan_generate_messages_cpp)
 #############
 ## Install ##
 #############

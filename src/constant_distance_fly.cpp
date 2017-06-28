@@ -13,9 +13,9 @@ void cloudCallback (const sensor_msgs::PointCloud cloud)
 
   for(int i=0;i<cloud.points.size();i++)
   {
-    if((cloud.points[i].x > 0.5) && (cloud.points[i].x < 5.0))
+    if((cloud.points[i].x > 0.5) && (cloud.points[i].x < 10.0))
     {
-      if((cloud.points[i].y > -3.0) && (cloud.points[i].y < 3.0))
+      if((cloud.points[i].y > -6.0) && (cloud.points[i].y < 6.0))
       {
         x = x + cloud.points[i].x ;
         y = y + cloud.points[i].y ;
