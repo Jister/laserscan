@@ -137,30 +137,20 @@ include_directories(
 ##  src/scan_to_cloud.cpp
 ##)
 
-add_executable(find_min_distance 
-  src/find_min_distance_opt.cpp
-)
-
 add_executable(scan_projector 
   src/scan_projector.cpp
-)
-
-
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(laserscan_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-##target_link_libraries(scan_to_cloud
-##  ${catkin_LIBRARIES}
-##)
-##add_dependencies(scan_to_cloud laserscan_generate_messages_cpp)
-
-target_link_libraries(find_min_distance 
-  ${catkin_LIBRARIES}
 )
 
 target_link_libraries(scan_projector 
   ${catkin_LIBRARIES}
 )
+
+add_executable(laser_odom 
+  src/laser_odom.cpp
+)
+
+target_link_libraries(laser_odom 
+  ${catkin_LIBRARIES}
+)
+
 

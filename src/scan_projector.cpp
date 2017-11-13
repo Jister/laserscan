@@ -28,12 +28,13 @@ private:
 	ros::Publisher scan_pub;
 	 
 	bool initialized;
+	bool imu_init;
 	vector<double> a_sin_;
-    vector<double> a_cos_;
+	vector<double> a_cos_;
 
-    double roll;
-    double pitch;
-    double yaw;
+	double roll;
+	double pitch;
+	double yaw;
 
 	void scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan);
 	void imuCallback(const sensor_msgs::Imu::ConstPtr& imu_msg);
@@ -42,10 +43,11 @@ private:
 
 Projector::Projector()
 {
-	scan_sub = n.subscribe("/scan_horizontal", 10, &Projector::scanCallback, this);
-	imu_sub = n.subscribe("/mavros/imu/data", 10, &Projector::imuCallback, this);
-	scan_pub = n.advertise<sensor_msgs::LaserScan>("/scan_projected", 10);
+	scan_sub = n.subscribe("scan", 10, &Projector::scanCallback, this);
+	imu_sub = n.subscribe("imu/data", 10, &Projector::imuCallback, this);
+	scan_pub = n.advertise<sensor_msgs::LaserScan>("scan_projected", 10);
 	initialized = false;
+	imu_init = false;
 	roll = 0;
 	pitch = 0;
 	yaw = 0;
@@ -62,16 +64,15 @@ void Projector::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan)
 
 	sensor_msgs::LaserScan scan_projected;
 
-
 	scan_projected.header = scan->header;
-    scan_projected.angle_min = scan->angle_min;
-    scan_projected.angle_max = scan->angle_max;
-    scan_projected.angle_increment = scan->angle_increment;
-    scan_projected.time_increment = scan->time_increment;
-    scan_projected.range_min = scan->range_min;
-    scan_projected.range_max = scan->range_max;
+	scan_projected.angle_min = scan->angle_min;
+	scan_projected.angle_max = scan->angle_max;
+	scan_projected.angle_increment = scan->angle_increment;
+	scan_projected.time_increment = scan->time_increment;
+	scan_projected.range_min = scan->range_min;
+	scan_projected.range_max = scan->range_max;
 	scan_projected.ranges.resize(scan->ranges.size());
-    scan_projected.intensities.resize(scan->ranges.size());
+	scan_projected.intensities.resize(scan->ranges.size());
 
 	for (unsigned int i = 0; i < scan->ranges.size(); i++)
 	{
@@ -89,23 +90,21 @@ void Projector::imuCallback(const sensor_msgs::Imu::ConstPtr& imu_msg)
 	tf::quaternionMsgToTF(imu_msg->orientation, q);
 	tf::Matrix3x3 m(q);
 	m.getRPY(roll, pitch, yaw);
-	// ROS_INFO("roll:%f",roll/3.14*180);
-	// ROS_INFO("pitch:%f",pitch/3.14*180);
-	// ROS_INFO("yaw:%f",yaw/3.14*180);
+	imu_init = true;
 }
 
 
 void Projector::createCache (const sensor_msgs::LaserScan::ConstPtr& scan_msg)
 {
-  a_cos_.clear();
-  a_sin_.clear();
+	a_cos_.clear();
+	a_sin_.clear();
 
-  for (unsigned int i = 0; i < scan_msg->ranges.size(); i++)
-  {
-    double angle = scan_msg->angle_min + i * scan_msg->angle_increment;
-    a_cos_.push_back(cos(angle));
-    a_sin_.push_back(sin(angle));
-  }
+	for (unsigned int i = 0; i < scan_msg->ranges.size(); i++)
+	{
+		double angle = scan_msg->angle_min + i * scan_msg->angle_increment;
+		a_cos_.push_back(cos(angle));
+		a_sin_.push_back(sin(angle));
+	}
 }
 
 
