@@ -5,10 +5,12 @@
 #include "sensor_msgs/Imu.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "sensor_msgs/PointCloud.h"
+#include "sensor_msgs/point_cloud_conversion.h"
 
-#include "Eigen/Dense"
+#include <Eigen/Dense>
+#include <Eigen/Geometry>
 
-//#include <pcl_conversions/pcl_conversions.h>
+#include <pcl_conversions/pcl_conversions.h>
 #include <pcl/point_types.h> 
 #include <pcl/registration/icp.h> //ICP(iterative closest point)
 
@@ -39,8 +41,8 @@ private:
 	Vector3f acc_b;
 	Vector3f acc_w;
 
-	pcl::PointCloud<pcl::PointXYZ> pcl_cloud_previous;
-	pcl::PointCloud<pcl::PointXYZ> pcl_cloud_current;
+	pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud_previous;
+	pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud_current;
 
 	bool is_scan_valid(const sensor_msgs::LaserScan &scan);
 
@@ -52,7 +54,7 @@ private:
 LaserOdometry::LaserOdometry(ros::NodeHandle n):
 	nh(n),
 	initialized(false),
-	use_imu(false),
+	use_imu(false)
 {
 	scan_sub = nh.subscribe("scan", 1, &LaserOdometry::scanCallback, this);
 	imu_sub = nh.subscribe("/mavros/imu/data", 1, &LaserOdometry::imuCallback, this);
@@ -65,6 +67,10 @@ LaserOdometry::LaserOdometry(ros::NodeHandle n):
 
 }
 
+LaserOdometry::~LaserOdometry()
+{
+}
+
 void LaserOdometry::scanCallback(const sensor_msgs::LaserScan& scan)
 {
 	laser_geometry::LaserProjection projector;
@@ -73,20 +79,20 @@ void LaserOdometry::scanCallback(const sensor_msgs::LaserScan& scan)
 	//convert LaserScan to PointCloud
 	projector.projectLaser(scan, cloud);
 	//convert PointCloud to PointCloud2
-	sensor_msgs::convertPointCloudToPointCloud2 (cloud, cloud2);
+	sensor_msgs::convertPointCloudToPointCloud2(cloud, cloud2);
 
 	if(!initialized)
 	{
-		pcl::fromROSMsg(cloud2, pcl_cloud_previous);
+		pcl::fromROSMsg(cloud2, *pcl_cloud_previous);
 		initialized = true;
 	}else
 	{
-		pcl::fromROSMsg(cloud2, pcl_cloud_current);
+		pcl::fromROSMsg(cloud2, *pcl_cloud_current);
 		//*********************************
 		// ICP
 		//*********************************
 		pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> icp; 
-		icp.setInputCloud(pcl_cloud_previous); //set the input cloud
+		icp.setInputSource(pcl_cloud_previous); //set the input cloud
 		icp.setInputTarget(pcl_cloud_current); //set the output cloud
 		pcl::PointCloud<pcl::PointXYZ> final; //result
 		//进行配准，结果存储在Final中
@@ -104,21 +110,27 @@ void LaserOdometry::imuCallback(const sensor_msgs::Imu::ConstPtr& imu_msg)
 {
 	tf::Quaternion q;
 	tf::quaternionMsgToTF(imu_msg->orientation, q);
-	tf::Matrix3x3 m(q);
-	m.getRPY(roll, pitch, yaw);
+	tf::Matrix3x3 R(q);
+	R.getRPY(roll, pitch, yaw);
 
-	Quaternion q_eigen(imu_msg->orientation.w, imu_msg->orientation.x, imu_msg->orientation.y, imu_msg->orientation.z);
-	Matrix3f R = q_eigen.toRotationMatrix();
+	tf::Vector3 acc_body(imu_msg->linear_acceleration.x, imu_msg->linear_acceleration.y, imu_msg->linear_acceleration.z);
+	tf::Vector3 acc_world;
+	
+	acc_world = R * acc_body;
+
 	acc_b(0) = imu_msg->linear_acceleration.x;
 	acc_b(1) = imu_msg->linear_acceleration.y;
 	acc_b(2) = imu_msg->linear_acceleration.z;
-	acc_w = R * acc_b;
+	acc_w(0) = acc_world.getX();
+	acc_w(1) = acc_world.getY();
+	acc_w(2) = acc_world.getZ();
 }
 
 
 int main(int argc, char **argv)
 {
-	ros::init(argc, argv, "LaserOdometry");
-	LaserOdometry LaserOdometry;
+	ros::init(argc, argv, "laser_odom");
+	ros::NodeHandle n;
+	LaserOdometry test(n);
 	ros::spin();
 }
