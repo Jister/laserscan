@@ -3,19 +3,27 @@ project(laserscan)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  rospy
   std_msgs
   message_generation
   laser_geometry
   tf
   sensor_msgs
-  message_filters
+  pcl_ros
+  pcl_conversions
+  geometry_msgs
+  nav_msgs
 )
 
-find_package(PCL 1.8 REQUIRED)
+find_package(PCL REQUIRED QUIET)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
+
+# Find csm project
+find_package(PkgConfig)
+pkg_check_modules(csm REQUIRED csm)
+include_directories(${csm_INCLUDE_DIRS})
+link_directories(${csm_LIBRARY_DIRS})
 
 ## Generate messages in the 'msg' folder
 add_message_files(
@@ -38,16 +46,8 @@ catkin_package(
   CATKIN_DEPENDS message_runtime
 )
 
-###########
-## Build ##
-###########
-
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(include)
-include_directories(
-  ${catkin_INCLUDE_DIRS}
-)
+include_directories(${catkin_INCLUDE_DIRS})
 
 ## Declare a C++ executable
 ##add_executable(scan_to_cloud 
@@ -61,12 +61,21 @@ target_link_libraries(scan_projector
   ${catkin_LIBRARIES}
 )
 
+#add_executable(laser_odom 
+#  src/laser_odom.cpp
+#)
+#target_link_libraries(laser_odom 
+#  ${catkin_LIBRARIES}
+#  ${PCL_LIBRARIES}
+#)
+
 add_executable(laser_odom 
-  src/laser_odom.cpp
+  src/laser_scan_matcher.cpp
 )
 target_link_libraries(laser_odom 
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}
+  ${csm_LIBRARIES}
 )
 
 
