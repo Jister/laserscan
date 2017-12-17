@@ -1,0 +1,22 @@
+<launch>
+  <node pkg="laserscan" name="laser_odom_opt" type="laser_odom_opt" output="screen">
+    <param name="fixed_frame" value = "odom2"/>
+    <param name="max_iterations" value="50"/>
+    <param name="use_imu" value = "true"/>
+    <param name="use_odom" value = "false"/>
+    <param name="use_vel" value = "true"/>
+    <param name="stamped_vel" value = "true"/>
+    <param name="publish_pose_with_covariance" value = "false"/>
+    <param name="publish_tf" value = "false"/>
+    <param name="use_point_to_line_distance" value = "1"/>
+    <param name="epsilon_xy" value = "0.001"/>
+    <param name="epsilon_theta" value = "0.001"/>
+
+
+    <remap from="scan" to="scan_projected"/>
+    <remap from="imu/data" to="mavros/imu/data"/>
+    <remap from="vel" to="mavros/local_position/velocity"/>
+  </node>
+
+  
+</launch>

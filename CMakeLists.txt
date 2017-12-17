@@ -85,4 +85,13 @@ target_link_libraries(laser_odom
   ${csm_LIBRARIES}
 )
 
+add_executable(laser_odom_opt 
+  src/csm_with_imu.cpp
+)
+target_link_libraries(laser_odom_opt 
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+  ${csm_LIBRARIES}
+)
+
 

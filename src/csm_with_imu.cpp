@@ -174,7 +174,7 @@ LaserScanMatcher::LaserScanMatcher(ros::NodeHandle nh):
 
 	if (publish_pose_)
 	{
-	pose_publisher_  = nh_.advertise<geometry_msgs::Pose2D>("pose2D", 5);
+	pose_publisher_  = nh_.advertise<geometry_msgs::Pose2D>("pose2D1", 5);
 	}
 
 	if (publish_pose_stamped_)
@@ -192,7 +192,7 @@ LaserScanMatcher::LaserScanMatcher(ros::NodeHandle nh):
 	pose_with_covariance_stamped_publisher_ = nh_.advertise<geometry_msgs::PoseWithCovarianceStamped>("pose_with_covariance_stamped", 5);
 	}
 
-	delta_t_ = nh_.advertise<std_msgs::Float64>("time", 5);
+	delta_t_ = nh_.advertise<std_msgs::Float64>("time_opt", 5);
 
 	// *** subscribers
 
@@ -963,7 +963,7 @@ void LaserScanMatcher::createTfFromXYTheta(double x, double y, double theta, tf:
 
 int main(int argc, char** argv)
 {
-	ros::init(argc, argv, "laser_odom");
+	ros::init(argc, argv, "laser_odom_opt");
 	ros::NodeHandle nh;
 	LaserScanMatcher laser_scan_matcher(nh);
 	ros::spin();
