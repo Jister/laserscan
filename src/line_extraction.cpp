@@ -74,7 +74,7 @@ void GetLine::segment(vector<Point> input)
 				max_d = distance;
 			}
 		}
-		if(max_d < 0.1)
+		if(max_d < 0.2)
 		{
 			Line l;
 			l.start = input[0];
@@ -212,7 +212,7 @@ void GetLine::scanCallback(const sensor_msgs::LaserScan laser)
 			temp.push_back(cloud[i]);
 		}else
 		{
-			if(Length(cloud[i], cloud[i-1]) < 0.1)
+			if(Length(cloud[i], cloud[i-1]) < 1.0)
 			{
 				temp.push_back(cloud[i]);
 			}else
@@ -235,7 +235,7 @@ void GetLine::scanCallback(const sensor_msgs::LaserScan laser)
 	line_list.ns = "line_extraction";  
 	line_list.action = visualization_msgs::Marker::ADD; 
 	line_list.type = visualization_msgs::Marker::LINE_LIST;  
-	line_list.scale.x = 0.1;  
+	line_list.scale.x = 0.05;  
 	line_list.color.r = 1.0;  
 	line_list.color.a = 1.0;  
 
@@ -249,7 +249,6 @@ void GetLine::scanCallback(const sensor_msgs::LaserScan laser)
 		p2.y = lines[i].end.y;
 		p2.z = 0;
 		line_list.points.push_back(p2);
-
 	}
 
 	marker_pub.publish(line_list);
