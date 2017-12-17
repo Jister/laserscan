@@ -61,6 +61,13 @@ target_link_libraries(scan_projector
   ${catkin_LIBRARIES}
 )
 
+add_executable(line_extraction 
+  src/line_extraction.cpp
+)
+target_link_libraries(line_extraction 
+  ${catkin_LIBRARIES}
+)
+
 #add_executable(laser_odom 
 #  src/laser_odom.cpp
 #)
