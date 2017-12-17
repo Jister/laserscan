@@ -1,0 +1,7 @@
+<launch>
+
+  <node pkg="laserscan" name="scan_projector" type="scan_projector" >
+    <remap from="imu/data" to="mavros/imu/data"/>
+  </node>
+
+</launch>
